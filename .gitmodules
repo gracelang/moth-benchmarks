@@ -1,3 +1,6 @@
 [submodule "implementations/Moth"]
 	path = implementations/Moth
 	url = https://github.com/richard-roberts/Moth.git
+[submodule "implementations/SOMns"]
+	path = implementations/SOMns
+	url = https://github.com/richard-roberts/SOMns.git
