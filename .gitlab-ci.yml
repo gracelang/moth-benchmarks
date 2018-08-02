@@ -1,0 +1,15 @@
+stages:
+  - benchmark
+
+variables:
+  PYTHONUNBUFFERED: "true"
+  JVMCI_BIN: /home/gitlab-runner/.local/graal-core/bin/java
+
+before_script:
+  - git submodule update --init --recursive
+
+benchmark_job:
+  stage: benchmark
+  tags: [yuria]
+  script:
+    - ./benchmark.sh

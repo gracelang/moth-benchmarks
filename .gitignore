@@ -2,3 +2,5 @@
 benchmarks/Java/build
 benchmarks/Java/benchmarks.jar
 
+benchmark.data
+build.log
