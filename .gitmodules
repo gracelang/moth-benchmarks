@@ -4,3 +4,6 @@
 [submodule "implementations/SOMns"]
 	path = implementations/SOMns
 	url = https://github.com/richard-roberts/SOMns.git
+[submodule "implementations/Higgs"]
+	path = implementations/Higgs
+	url = https://github.com/higgsjs/Higgs.git
