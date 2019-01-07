@@ -1,13 +1,16 @@
+#!/bin/bash
 # Top-level executable for "Are We Fast Yet" benchmarks
 #   Originally developed by Stefan Marr
 #   https://gitlab.soft.vub.ac.be/stefan.marr/awfy-runs
 #
 # Adapted by Richard Roberts
 #
+# PARAMS=("--commit-id=$CI_BUILD_REF" "--environment=yuria" "--branch=$CI_BUILD_REF_NAME")
+# rebench --invocation=1 -f "${PARAMS[@]}" codespeed.conf all e:MothTyped
+rebench --invocation=1 -f "${PARAMS[@]}" codespeed.conf steady
+rebench --invocation=1 -f "${PARAMS[@]}" codespeed.conf typing
 
-# #!/bin/bash
-PARAMS=("-d" "-c" "--commit-id=$CI_BUILD_REF" "--environment=yuria" "--branch=$CI_BUILD_REF_NAME") 
-rebench -f -c "${PARAMS[@]}" codespeed.conf all
+# rebench --invocation=1 -f -c "${PARAMS[@]}" codespeed.conf interp
 
 
 ## Archive results
@@ -23,7 +26,8 @@ TARGET_PATH=$DATA_ROOT/$NUM_PREV-$REV
 LATEST=$DATA_ROOT/latest
 
 mkdir -p $TARGET_PATH
-cp benchmark.data $TARGET_PATH/
+bzip2 benchmark.data
+mv benchmark.data.bz2 $TARGET_PATH/
 rm $LATEST
 ln -s $TARGET_PATH $LATEST
 echo Data archived to $TARGET_PATH
