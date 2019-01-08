@@ -20,7 +20,7 @@
 import "harness" as harness
 import "Core" as core
 
-def Array: List = platform.kernel.Array
+def Array: Unknown = platform.kernel.Array
 
 type BasicBlockType = interface {
   bbName
