@@ -9,7 +9,8 @@
 # rebench --invocation=1 -f "${PARAMS[@]}" codespeed.conf all e:MothTyped
 # rebench --invocation=1 -f "${PARAMS[@]}" codespeed.conf steady
 # rebench --invocation=1 -f "${PARAMS[@]}" codespeed.conf typing
-rebench --invocation=1 -f "${PARAMS[@]}" codespeed.conf type-cost
+# rebench --in 30 --it 100 -f "${PARAMS[@]}" codespeed.conf type-cost
+rebench -f codespeed.conf typing-startup
 
 # rebench --invocation=1 -f -c "${PARAMS[@]}" codespeed.conf interp
 
