@@ -10,8 +10,8 @@
 # rebench --invocation=1 -f "${PARAMS[@]}" codespeed.conf steady
 # rebench --invocation=1 -f "${PARAMS[@]}" codespeed.conf typing
 # rebench --in 30 --it 100 -f "${PARAMS[@]}" codespeed.conf type-cost
-# rebench -f codespeed.conf typing-startup
-rebench codespeed.conf stats
+rebench -f --in 9 --it 5000 codespeed.conf typing-startup
+# rebench codespeed.conf stats
 
 # rebench --invocation=1 -f -c "${PARAMS[@]}" codespeed.conf interp
 
