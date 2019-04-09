@@ -1,0 +1,158 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Read configuartion from environment
+box_name     = ENV['BOX_NAME']
+rebench_conf = ENV['REBENCH_CONF']
+commit_sha   = ENV['COMMIT_SHA']
+git_repo     = ENV['GIT_REPO']
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+  # The most common configuration options are documented and commented below.
+  # For a complete reference, please see the online documentation at
+  # https://docs.vagrantup.com.
+
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://vagrantcloud.com/search.
+  # config.vm.box = "minimal/xenial64"
+  # config.vm.box = "ubuntu/bionic64"
+  config.vm.box = "ubuntu/xenial64"
+
+  # Disable automatic box update checking. If you disable this, then
+  # boxes will only be checked for updates when the user runs
+  # `vagrant box outdated`. This is not recommended.
+  # config.vm.box_check_update = false
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine. In the example below,
+  # accessing "localhost:8080" will access port 80 on the guest machine.
+  # NOTE: This will enable public access to the opened port
+  # config.vm.network "forwarded_port", guest: 80, host: 8080
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine and only allow access
+  # via 127.0.0.1 to disable public access
+  # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+
+  # Create a private network, which allows host-only access to the machine
+  # using a specific IP.
+  # config.vm.network "private_network", ip: "192.168.33.10"
+
+  # Create a public network, which generally matched to bridged network.
+  # Bridged networks make the machine appear as another physical device on
+  # your network.
+  # config.vm.network "public_network"
+
+  # Share an additional folder to the guest VM. The first argument is
+  # the path on the host to the actual folder. The second argument is
+  # the path on the guest to mount the folder. And the optional third
+  # argument is a set of non-required options.
+  # config.vm.synced_folder "../data", "/vagrant_data"
+
+  # Provider-specific configuration so you can fine-tune various
+  # backing providers for Vagrant. These expose provider-specific options.
+  # Example for VirtualBox:
+  #
+  config.vm.provider "virtualbox" do |vb|
+  #   # Display the VirtualBox GUI when booting the machine
+  #   vb.gui = true
+  #
+  #   # Customize the amount of memory on the VM:
+    vb.memory = "8192" # "4096" # "8192"
+    vb.cpus = 8
+  end
+  #
+  # View the documentation for the provider you are using for more
+  # information on available options.
+
+  # Enable provisioning with a shell script. Additional provisioners such as
+  # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
+  # documentation for more information about their specific syntax and use.
+  config.vm.provision "shell", inline: <<-SHELL
+    # For Xenial we need the following. TODO: remove once we switched to bionic
+    curl -sL https://deb.nodesource.com/setup_8.x | bash -
+
+    # For Xenial we need:
+    #  - install R package server
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
+    echo "deb http://cran.rstudio.com/bin/linux/ubuntu xenial/" > /etc/apt/sources.list.d/r-lang.list
+    
+    #  - install mono package server
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+    apt install apt-transport-https ca-certificates
+    echo "deb https://download.mono-project.com/repo/ubuntu stable-xenial main" > /etc/apt/sources.list.d/mono-official-stable.list
+
+    #  - install D package server
+    wget http://master.dl.sourceforge.net/project/d-apt/files/d-apt.list -O /etc/apt/sources.list.d/d-apt.list
+
+    apt update --allow-insecure-repositories
+    apt -y --allow-unauthenticated install --reinstall d-apt-keyring
+    apt update
+    apt install -y r-base
+    apt install -y openjdk-8-jdk openjdk-8-source python-pip ant maven nodejs mono-devel dmd-compiler dub
+
+    pip install git+https://github.com/smarr/ReBench
+    
+    # install Latex
+    apt --no-install-recommends install -y texlive-base texlive-latex-base texlive-fonts-recommended  texlive-latex-extra texlive-fonts-extra cm-super
+  SHELL
+  
+  config.vm.provision "shell", privileged: false, inline: <<-SHELL
+    # Build GraalBasic, a Graal-enabled JDK
+    mkdir -p ~/.local
+    git clone https://github.com/smarr/GraalBasic.git
+    cd GraalBasic
+    git checkout d37bbe4de590087231cb17fb8e5e08153cd67a59
+    ./build.sh
+    cd ..
+    export GRAAL_HOME=~/.local/graal-core
+    echo "" >> ~/.profile
+    echo "# Export GRAAL_HOME for Moth" >> ~/.profile
+    echo "export GRAAL_HOME=~/.local/graal-core" >> ~/.profile
+
+
+    git clone #{git_repo} #{box_name}
+
+    cd #{box_name}
+    git checkout #{commit_sha}
+    git submodule update --init --recursive
+    rebench --faulty --quick #{rebench_conf} all
+  SHELL
+  
+  config.vm.provision "shell", privileged: false, inline: <<-SHELL
+    # Copy Paper Eval into Image
+    cp -R /vagrant/paper/evaluation evaluation
+    cp -R /vagrant/paper/eval-description eval-description
+  SHELL
+  
+  config.vm.provision "shell", privileged: true, inline: <<-SHELL
+    pushd evaluation
+
+    # install R dependencies
+    echo "options(repos=structure(c(CRAN=\"https://cloud.r-project.org/\")))" > .Rprofile
+    (cd scripts && Rscript libraries.R)
+  SHELL
+  
+  config.vm.provision "shell", privileged: false, inline: <<-SHELL
+    pushd eval-description
+    make
+  SHELL
+
+  ## Now cleanup
+  config.vm.provision "shell", privileged: true, inline: <<-SHELL
+    apt-get clean -y
+    apt-get autoclean -y
+    rm -rf /usr/src/vboxguest*
+    rm -rf /usr/share/doc
+    find /var/cache -type f -exec rm -rf {} \\;
+      
+    umount /vagrant
+    rm -rf /usr/src/linux-headers*
+    rm -rf /usr/share/locale/{af,an,am,ar,ary,as,ast,az,bal,be,bg,bn,bn_IN,bo,br,bs,byn,ca,ca@valencia,ckb,cr,crh,cs,csb,cv,cy,da,de,de_AT,dv,dz,el,en_AU,en_CA,en_GB,eo,es,et,et_EE,eu,fa,fa_AF,fi,fil,fo,fr,frp,fur,fy,ga,gd,gez,gl,gu,gv,haw,he,hi,hr,ht,hu,hy,id,is,it,ja,jv,ka,kk,km,kn,ko,kok,ku,ky,lb,lg,ln,lt,lo,lv,mg,mhr,mi,mk,ml,mn,mr,ms,mt,my,nb,nds,ne,nl,nn,no,nso,oc,or,os,pa,pam,pl,ps,pt,pt_BR,qu,ro,ru,rw,sc,sd,shn,si,sk,sl,so,sq,sr,sr*latin,sv,sw,ta,te,th,ti,tig,tk,tl,tr,trv,tt,ug,uk,ur,urd,uz,ve,vec,vi,wa,wal,wo,xh,zh,zh_HK,zh_CN,zh_TW,zu}
+  SHELL
+
+end

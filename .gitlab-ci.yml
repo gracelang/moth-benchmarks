@@ -12,4 +12,5 @@ benchmark_job:
   stage: benchmark
   tags: [yuria]
   script:
-    - ./benchmark.sh
+    # - ./benchmark.sh
+    - artifact/virtualbox.sh
