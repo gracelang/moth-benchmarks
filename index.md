@@ -20,7 +20,7 @@ You can download the image using one of these mirrors:
 - Download [Mirror 1]
 <!-- - Download [Mirror 2] -->
 
-Please verify that the MD5 check sum matches `d7ac6b99ba4f02efe2ac8f7685176a80`.
+Please verify that the MD5 check sum matches `31dc57ea83b94ca02b997a23190bc685`.
 
 #### 1.2 Setup Instructions
 
@@ -222,7 +222,7 @@ This will generate the `eval-description.pdf`, which can also be found on the de
 The material in this repository is licensed under the terms of the MIT License. Please note, the repository links in form of submodules to other repositories which are licensed under different terms.
 
 [VirtualBox]: https://www.virtualbox.org/
-[Mirror 1]: https://drive.google.com/open?id=1UGaPryk1OjPKqeKeMCdYbNYzD67G0akH
+[Mirror 1]: https://drive.google.com/file/d/1Zo6Sn6EOOlgV90v78T11GPL76ZokuW_c
 [Mirror 2]: https://google.com
 [ReBench]: https://github.com/smarr/ReBench
 [eclipse_oxy]: https://www.eclipse.org/oxygen/
