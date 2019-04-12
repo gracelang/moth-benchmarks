@@ -15,6 +15,12 @@ check_for "vagrant" "Vagrant does not seem available. This was tested with versi
 INFO Setup a Vagrant VM Image
 pushd ${SCRIPT_PATH}
 
+function halt_and_remove_image {
+  vagrant halt
+  vagrant destroy -f
+}
+trap halt_and_remove_image EXIT
+
 INFO "Get Paper Repository for Evaluation Material"
 git clone --depth=1 ${PAPER_REPO} paper
 
@@ -22,4 +28,6 @@ vagrant up
 vagrant halt
 # --base ${BOX_NAME}
 vagrant package --output ${BOX_NAME}.tar.gz
+mv ${BOX_NAME}.tar.gz ~/artifacts/
+
 popd
