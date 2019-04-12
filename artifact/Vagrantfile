@@ -18,9 +18,10 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  # config.vm.box = "minimal/xenial64"
-  # config.vm.box = "ubuntu/bionic64"
-  config.vm.box = "ubuntu/xenial64"
+  config.vm.box = "artifact-base/xenial64"
+  
+  config.ssh.username = "artifact"
+  config.ssh.password = "artifact"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -62,7 +63,7 @@ Vagrant.configure("2") do |config|
   #   vb.gui = true
   #
   #   # Customize the amount of memory on the VM:
-    vb.memory = "8192" # "4096" # "8192"
+    vb.memory = "8192"
     vb.cpus = 8
   end
   #
@@ -74,31 +75,31 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
     # For Xenial we need the following. TODO: remove once we switched to bionic
-    curl -sL https://deb.nodesource.com/setup_8.x | bash -
+    wget -O- https://deb.nodesource.com/setup_8.x | bash -
 
     # For Xenial we need:
     #  - install R package server
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
-    echo "deb http://cran.rstudio.com/bin/linux/ubuntu xenial/" > /etc/apt/sources.list.d/r-lang.list
+    echo "deb https://cran.rstudio.com/bin/linux/ubuntu xenial/" > /etc/apt/sources.list.d/r-lang.list
     
     #  - install mono package server
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-    apt install apt-transport-https ca-certificates
+    apt-get install apt-transport-https ca-certificates
     echo "deb https://download.mono-project.com/repo/ubuntu stable-xenial main" > /etc/apt/sources.list.d/mono-official-stable.list
 
     #  - install D package server
     wget http://master.dl.sourceforge.net/project/d-apt/files/d-apt.list -O /etc/apt/sources.list.d/d-apt.list
 
-    apt update --allow-insecure-repositories
-    apt -y --allow-unauthenticated install --reinstall d-apt-keyring
-    apt update
-    apt install -y r-base
-    apt install -y openjdk-8-jdk openjdk-8-source python-pip ant maven nodejs mono-devel dmd-compiler dub
+    apt-get update --allow-insecure-repositories
+    apt-get -y --allow-unauthenticated install --reinstall d-apt-keyring
+    apt-get update
+    apt-get install -y r-base
+    apt-get install -y openjdk-8-jdk openjdk-8-source python-pip ant maven nodejs mono-devel dmd-compiler dub
 
     pip install git+https://github.com/smarr/ReBench
     
     # install Latex
-    apt --no-install-recommends install -y texlive-base texlive-latex-base texlive-fonts-recommended  texlive-latex-extra texlive-fonts-extra cm-super
+    apt-get --no-install-recommends install -y texlive-base texlive-latex-base texlive-fonts-recommended  texlive-latex-extra texlive-fonts-extra cm-super
   SHELL
   
   config.vm.provision "shell", privileged: false, inline: <<-SHELL

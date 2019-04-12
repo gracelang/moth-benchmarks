@@ -20,5 +20,6 @@ git clone --depth=1 ${PAPER_REPO} paper
 
 vagrant up
 vagrant halt
-vagrant package --output ${BOX_NAME}.box
+# --base ${BOX_NAME}
+vagrant package --output ${BOX_NAME}.tar.gz
 popd
