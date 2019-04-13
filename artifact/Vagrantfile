@@ -6,6 +6,7 @@ box_name     = ENV['BOX_NAME']
 rebench_conf = ENV['REBENCH_CONF']
 commit_sha   = ENV['COMMIT_SHA']
 git_repo     = ENV['GIT_REPO']
+repo_name    = ENV['REPO_NAME']
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
@@ -108,6 +109,8 @@ Vagrant.configure("2") do |config|
     git clone https://github.com/smarr/GraalBasic.git
     cd GraalBasic
     git checkout d37bbe4de590087231cb17fb8e5e08153cd67a59
+    
+    # export COMPILER_WARNINGS_FATAL=false
     ./build.sh
     cd ..
     export GRAAL_HOME=~/.local/graal-core
@@ -116,9 +119,9 @@ Vagrant.configure("2") do |config|
     echo "export GRAAL_HOME=~/.local/graal-core" >> ~/.profile
 
 
-    git clone #{git_repo} #{box_name}
+    git clone #{git_repo} #{repo_name}
 
-    cd #{box_name}
+    cd #{repo_name}
     git checkout #{commit_sha}
     git submodule update --init --recursive
     rebench --faulty --quick #{rebench_conf} all
@@ -139,10 +142,24 @@ Vagrant.configure("2") do |config|
   SHELL
   
   config.vm.provision "shell", privileged: false, inline: <<-SHELL
-    pushd eval-description
+    cd ~/eval-description
     make
+    
+    ## Set Wallpaper
+    cd ~/Downloads
+    wget https://stefan-marr.de/ci/artifacts/ecoop19-lubuntu-wall.png
+    pcmanfm --set-wallpaper=/home/artifact/Downloads/ecoop19-lubuntu-wall.png
+    
+    cd ~/
+    ## Create Links on Desktop
+    ln -s ~/evaluation ~/Desktop/evaluation
+    ln -s ~/eval-description ~/Desktop/eval-description
+    ln -s ~/eval-description/eval-description.pdf ~/Desktop/eval-description.pdf
+    
+    ln -s ~/#{repo_name} ~/Desktop/#{repo_name}
+    ln -s ~/#{repo_name}/README.md ~/Desktop/README.md
   SHELL
-
+  
   ## Now cleanup
   config.vm.provision "shell", privileged: true, inline: <<-SHELL
     apt-get clean -y
