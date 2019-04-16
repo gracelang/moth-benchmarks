@@ -4,17 +4,7 @@
 #   https://gitlab.soft.vub.ac.be/stefan.marr/awfy-runs
 #
 # Adapted by Richard Roberts
-#
-# PARAMS=("--commit-id=$CI_BUILD_REF" "--environment=yuria" "--branch=$CI_BUILD_REF_NAME")
-# rebench --invocation=1 -f "${PARAMS[@]}" codespeed.conf all e:MothTyped
-# rebench --invocation=1 -f "${PARAMS[@]}" codespeed.conf steady
-# rebench --invocation=1 -f "${PARAMS[@]}" codespeed.conf typing
-# rebench --in 30 --it 100 -f "${PARAMS[@]}" codespeed.conf type-cost
-rebench -f --in 9 --it 5000 codespeed.conf typing-startup
-# rebench codespeed.conf stats
-
-# rebench --invocation=1 -f -c "${PARAMS[@]}" codespeed.conf interp
-
+rebench -f codespeed.conf all
 
 ## Archive results
 
