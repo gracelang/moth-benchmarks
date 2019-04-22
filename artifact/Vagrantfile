@@ -95,7 +95,7 @@ Vagrant.configure("2") do |config|
     apt-get -y --allow-unauthenticated install --reinstall d-apt-keyring
     apt-get update
     apt-get install -y r-base
-    apt-get install -y openjdk-8-jdk openjdk-8-source python-pip ant maven nodejs mono-devel dmd-compiler dub
+    apt-get install -y --allow-unauthenticated openjdk-8-jdk openjdk-8-source python-pip ant maven nodejs mono-devel dmd-compiler dub
 
     pip install git+https://github.com/smarr/ReBench
     
