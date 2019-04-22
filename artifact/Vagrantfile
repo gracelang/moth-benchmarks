@@ -101,6 +101,9 @@ Vagrant.configure("2") do |config|
     
     # install Latex
     apt-get --no-install-recommends install -y texlive-base texlive-latex-base texlive-fonts-recommended  texlive-latex-extra texlive-fonts-extra cm-super
+    
+    # enable nice without sudo
+    echo "artifact       -     nice       -20" >> /etc/security/limits.conf
   SHELL
   
   config.vm.provision "shell", privileged: false, inline: <<-SHELL
