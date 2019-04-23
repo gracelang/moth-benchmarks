@@ -20,7 +20,11 @@ You can download the image using one of these mirrors:
 - Download [Mirror 1]
 <!-- - Download [Mirror 2] -->
 
-Please verify that the MD5 check sum matches `64fa2e4249db69f9dc1c37524a3ef0ef`.
+Please verify that the MD5 check sum matches `3546a0fabdb89e778c9e46a49f009ca2`.
+
+The plots of the evaluation section, and the raw data from our benchmarks can be downloaded, as well:
+
+- Evaluation scripts and data [Mirror 1][M1Data]
 
 #### 1.2 Setup Instructions
 
@@ -43,12 +47,27 @@ The R scripts are in the `evaluation` folder, which currently also includes the 
 Thus, without replacing these files or adapting the R script, it will render our results.
 In addition to the R files, `eval-description` contains a latex document and makefile to generate all plots and numbers used in our evaluation section.
 
-To perform the steps above, the following commands can be used:
+Note that running all benchmarks takes about a day.
+So, for a check that at least some simple benchmarks are working,
+let's compare the baseline performance of the Json benchmark.
+This takes about half an hour:
+
+```bash
+rebench -fNB codespeed.conf \
+  s:java-awfy-steady:Json \
+  s:node-awfy-steady:Json \
+  s:higgs-awfy-steady:Json \
+  s:moth-awfy-steady:Json
+```
+
+
+To perform all steps above and run all benchmarks,
+the following commands can be used:
 
 ```bash
 ## Run All Benchmarks
 cd /home/moth/moth-benchmarks
-rebench codespeed.conf all
+rebench -fNB codespeed.conf all
 # this produced a benchmark.data file
 
 ## Generate Plots from Data used for the Paper
@@ -127,18 +146,18 @@ On a Ubuntu 16.04, the following script will install all dependencies (requires 
 ```bash
 curl -sL https://deb.nodesource.com/setup_8.x | bash -
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
-echo "deb http://cran.rstudio.com/bin/linux/ubuntu xenial/" > /etc/apt/sources.list.dr-lang.list
+echo "deb http://cran.rstudio.com/bin/linux/ubuntu xenial/" > /etc/apt/sources.list.d/r-lang.list
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-apt install apt-transport-https ca-certificates
-echo "deb https://download.mono-project.com/repo/ubuntu stable-xenial main" > /etc/aptsources.list.d/mono-official-stable.list
-wget http://master.dl.sourceforge.net/project/d-apt/files/d-apt.list -O /etc/aptsources.list.d/d-apt.list
+apt-get install apt-transport-https ca-certificates
+echo "deb https://download.mono-project.com/repo/ubuntu stable-xenial main" > /etc/apt/sources.list.d/mono-official-stable.list
+wget http://master.dl.sourceforge.net/project/d-apt/files/d-apt.list -O /etc/apt/sources.list.d/d-apt.list
 
-apt update --allow-insecure-repositories
-apt -y --allow-unauthenticated install --reinstall d-apt-keyring
-apt update
-apt install -y r-base
-apt install -y openjdk-8-jdk openjdk-8-source python-pip ant maven nodejs mono-develdmd-compiler dub
-apt --no-install-recommends install -y texlive-base texlive-latex-basetexlive-fonts-recommended  texlive-latex-extra texlive-fonts-extra cm-super
+apt-get update --allow-insecure-repositories
+apt-get -y --allow-unauthenticated install --reinstall d-apt-keyring
+apt-get update
+apt-get install -y r-base
+apt-get install -y openjdk-8-jdk openjdk-8-source python-pip ant maven nodejs mono-devel dmd-compiler dub
+apt-get --no-install-recommends install -y texlive-base texlive-latex-base texlive-fonts-recommended texlive-latex-extra texlive-fonts-extra cm-super
 
 pip install git+https://github.com/smarr/ReBench
 ```
@@ -150,7 +169,7 @@ The source code is provided only as a set of git repositories, because Truffle a
 Clone the `paper-experiments` branch of our repository:
 
 ```bash
-git clone --recursive -b paper-experiments git@github.com:gracelang/moth-benchmarks.git
+git clone --recursive -b paper-experiments https://github.com/gracelang/moth-benchmarks
 ```
 
 #### 3.2 Build Graal
@@ -173,29 +192,35 @@ export GRAAL_HOME=~/.local/graal-core
 
 ### 3.3 Executing the Benchmarks
 
+<a name="benchmarks"></a>
+
 To execute the benchmarks, we use the [ReBench](https://github.com/smarr/ReBench) benchmarking tool. The experiments and all benchmark parameters are configured in the `codespeed.conf` file (inside the `moth-benchmarks` folder). The file describes which benchmarks to run on which virtual machines. Note that the names used in the configuration file are post-processed for the paper in the R scripts used to generate graphs, thus, the configuration contains all necessary information to find the benchmark implementations in the repositories, but does not match exactly the names in the paper.
 
 Also note that the configuration contains all information to build the experiments.
 Most scripts for that can be found in `moth-benchmarks/implementations/build-*`.
 
-To use ReBench, enter the following commands:
+To use ReBench, enter the following commands.
+This will build everything and execute all benchmarks, which takes about a day:
 
 ```bash
 cd /home/moth/moth-benchmarks      # folder with the repository
-rebench codespeed.conf
+rebench -fN codespeed.conf
 ```
 
 As ReBench executes, it saves performance results into `benchmark.data`. If ReBench is terminated and restarted, it will continue from the point where it was terminated.
 
 ReBench offers a wide variety of features to control what is executed.
-Please see its documentation for an overview: https://rebench.readthedocs.io/en/latest/
+Please see its documentation for an overview: https://rebench.readthedocs.io/en/latest/usage/
 
 One can for instance select the execution of specific experiments:
 
 ```bash
 ## execute only the experiments for assessing the impact on startup
-rebench codespeed.conf typing-startup
+rebench -fN codespeed.conf typing-startup
 ```
+
+Note, if all experiments are already built, as in the VM image, they do not need
+to be rebuild and ReBench can skip the build with the `-B` switch.
 
 <a name="plots"></a>
 
@@ -204,8 +229,8 @@ rebench codespeed.conf typing-startup
 Before the results can be rendered, a few R libraries have to be installed. For this step R might require superuser rights. See `/home/moth/evaluation/scripts/libraries.R` for details.
 
 ```bash
-cd /home/moth/evaluation/
-sudo Rscript scripts/libraries.R
+cd /home/moth/evaluation/scripts/
+sudo Rscript libraries.R
 ```
 
 After the libraries have been installed, a latex document detailing the structure of the evaluation can be rendered:
@@ -228,3 +253,4 @@ The material in this repository is licensed under the terms of the MIT License. 
 [eclipse_oxy]: https://www.eclipse.org/oxygen/
 [Moth]: https://github.com/gracelang/Moth
 [SOMns]: https://github.com/smarr/SOMns
+[M1Data]: https://www.cs.kent.ac.uk/people/staff/sm951/ecoop19/eval.tar.bz2
