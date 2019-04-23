@@ -20,7 +20,7 @@ You can download the image using one of these mirrors:
 - Download [Mirror 1]
 <!-- - Download [Mirror 2] -->
 
-Please verify that the MD5 check sum matches `64fa2e4249db69f9dc1c37524a3ef0ef`.
+Please verify that the MD5 check sum matches `3546a0fabdb89e778c9e46a49f009ca2`.
 
 The plots of the evaluation section, and the raw data from our benchmarks can be downloaded, as well:
 
