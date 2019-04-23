@@ -22,6 +22,10 @@ You can download the image using one of these mirrors:
 
 Please verify that the MD5 check sum matches `64fa2e4249db69f9dc1c37524a3ef0ef`.
 
+The plots of the evaluation section, and the raw data from our benchmarks can be downloaded, as well:
+
+- Evaluation scripts and data [Mirror 1][M1Data]
+
 #### 1.2 Setup Instructions
 
 The VirtualBox image was tested with version 5.2.
@@ -249,3 +253,4 @@ The material in this repository is licensed under the terms of the MIT License. 
 [eclipse_oxy]: https://www.eclipse.org/oxygen/
 [Moth]: https://github.com/gracelang/Moth
 [SOMns]: https://github.com/smarr/SOMns
+[M1Data]: https://www.cs.kent.ac.uk/people/staff/sm951/ecoop19/eval.tar.bz2
