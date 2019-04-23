@@ -24,10 +24,17 @@ trap halt_and_remove_image EXIT
 INFO "Get Paper Repository for Evaluation Material"
 git clone --depth=1 ${PAPER_REPO} paper
 
+tar cjvf eval.tar.bz2 paper/evaluation paper/eval-description
+mv eval.tar.bz2 ~/artifacts/${BOX_NAME}-eval.tar.bz2
+
 vagrant up
 vagrant halt
 # --base ${BOX_NAME}
 vagrant package --output ${BOX_NAME}.tar.gz
 mv ${BOX_NAME}.tar.gz ~/artifacts/
 
-popd
+echo File Size
+ls -sh ~/artifacts/${BOX_NAME}*
+
+echo MD5
+md5sum ~/artifacts/${BOX_NAME}*
