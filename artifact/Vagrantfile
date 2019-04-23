@@ -127,7 +127,7 @@ Vagrant.configure("2") do |config|
     cd #{repo_name}
     git checkout #{commit_sha}
     git submodule update --init --recursive
-    rebench --faulty --quick #{rebench_conf} all
+    rebench --faulty --setup-only #{rebench_conf} all
   SHELL
   
   config.vm.provision "shell", privileged: false, inline: <<-SHELL
