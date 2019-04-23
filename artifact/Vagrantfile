@@ -145,6 +145,10 @@ Vagrant.configure("2") do |config|
   SHELL
   
   config.vm.provision "shell", privileged: false, inline: <<-SHELL
+    echo ""
+    echo "Customize Image"
+    echo ""
+
     cd ~/eval-description
     make
     
@@ -161,10 +165,16 @@ Vagrant.configure("2") do |config|
     
     ln -s ~/#{repo_name} ~/Desktop/#{repo_name}
     ln -s ~/#{repo_name}/README.md ~/Desktop/README.md
+    
+    echo ""
+    echo "Customization Done"
+    echo ""
   SHELL
   
-  ## Now cleanup
   config.vm.provision "shell", privileged: true, inline: <<-SHELL
+    echo ""
+    echo "Clean Up Image"
+    echo ""
     apt-get clean -y
     apt-get autoclean -y
     
@@ -178,6 +188,10 @@ Vagrant.configure("2") do |config|
     umount /vagrant
     rm -rf /usr/src/linux-headers*
     rm -rf /usr/share/locale/{af,an,am,ar,ary,as,ast,az,bal,be,bg,bn,bn_IN,bo,br,bs,byn,ca,ca@valencia,ckb,cr,crh,cs,csb,cv,cy,da,de,de_AT,dv,dz,el,en_AU,en_CA,en_GB,eo,es,et,et_EE,eu,fa,fa_AF,fi,fil,fo,fr,frp,fur,fy,ga,gd,gez,gl,gu,gv,haw,he,hi,hr,ht,hu,hy,id,is,it,ja,jv,ka,kk,km,kn,ko,kok,ku,ky,lb,lg,ln,lt,lo,lv,mg,mhr,mi,mk,ml,mn,mr,ms,mt,my,nb,nds,ne,nl,nn,no,nso,oc,or,os,pa,pam,pl,ps,pt,pt_BR,qu,ro,ru,rw,sc,sd,shn,si,sk,sl,so,sq,sr,sr*latin,sv,sw,ta,te,th,ti,tig,tk,tl,tr,trv,tt,ug,uk,ur,urd,uz,ve,vec,vi,wa,wal,wo,xh,zh,zh_HK,zh_CN,zh_TW,zu}
+    
+    echo ""
+    echo "Clean Up Done"
+    echo ""
   SHELL
 
 end
