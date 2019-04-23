@@ -25,12 +25,12 @@ Please verify that the MD5 check sum matches `64fa2e4249db69f9dc1c37524a3ef0ef`.
 #### 1.2 Setup Instructions
 
 The VirtualBox image was tested with version 5.2.
-It contains a Lubuntu 16.04 installation and will boot to a desktop.
+It contains an Ubuntu 16.04 installation.
+The image will boot to a desktop.
+For some actions credentials may be needed:
 
-The credentials are:
-
-- username: `artifact`
-- password: `artifact`
+- username: `moth`
+- password: `moth`
 
 #### 1.3 Basic Experiment Execution
 
