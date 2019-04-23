@@ -44,8 +44,9 @@ Thus, without replacing these files or adapting the R script, it will render our
 In addition to the R files, `eval-description` contains a latex document and makefile to generate all plots and numbers used in our evaluation section.
 
 Note that running all benchmarks takes about a day.
-So, for a quick check that at least some simple benchmarks are working,
-let's compare the baseline performance of the Json benchmark for:
+So, for a check that at least some simple benchmarks are working,
+let's compare the baseline performance of the Json benchmark.
+This takes about half an hour:
 
 ```bash
 rebench -fNB codespeed.conf \
