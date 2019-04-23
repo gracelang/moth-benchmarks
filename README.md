@@ -48,7 +48,7 @@ So, for a quick check that at least some simple benchmarks are working,
 let's compare the baseline performance of the Json benchmark for:
 
 ```bash
-rebench -fN codespeed.conf \
+rebench -fNB codespeed.conf \
   s:java-awfy-steady:Json \
   s:node-awfy-steady:Json \
   s:higgs-awfy-steady:Json \
@@ -62,7 +62,7 @@ the following commands can be used:
 ```bash
 ## Run All Benchmarks
 cd /home/moth/moth-benchmarks
-rebench -fN codespeed.conf all
+rebench -fNB codespeed.conf all
 # this produced a benchmark.data file
 
 ## Generate Plots from Data used for the Paper
@@ -195,7 +195,7 @@ Also note that the configuration contains all information to build the experimen
 Most scripts for that can be found in `moth-benchmarks/implementations/build-*`.
 
 To use ReBench, enter the following commands.
-This will execute all benchmarks, which takes about a day:
+This will build everything and execute all benchmarks, which takes about a day:
 
 ```bash
 cd /home/moth/moth-benchmarks      # folder with the repository
@@ -213,6 +213,9 @@ One can for instance select the execution of specific experiments:
 ## execute only the experiments for assessing the impact on startup
 rebench -fN codespeed.conf typing-startup
 ```
+
+Note, if all experiments are already built, as in the VM image, they do not need
+to be rebuild and ReBench can skip the build with the `-B` switch.
 
 <a name="plots"></a>
 
