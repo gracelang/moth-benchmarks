@@ -28,3 +28,5 @@ ls -sh ~/artifacts/${BOX_NAME}/*
 
 echo MD5
 md5sum ~/artifacts/${BOX_NAME}/*
+
+chmod a+r ~/artifacts/${BOX_NAME}/*
