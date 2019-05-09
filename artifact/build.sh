@@ -17,6 +17,7 @@ export JAVA_HOME=~/.local/graal-core
 (cd graal-jvmci-8;    ../mx/mx clean)
 (cd truffle/compiler; ../../mx/mx clean)
 (cd truffle/sdk;      ../../mx/mx clean)
+unset JAVA_HOME
 
 cd ..
 export GRAAL_HOME=~/.local/graal-core
