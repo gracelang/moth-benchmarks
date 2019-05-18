@@ -53,6 +53,7 @@ let's compare the baseline performance of the Json benchmark.
 This takes about half an hour:
 
 ```bash
+cd /home/moth/moth-benchmarks
 rebench -fNB codespeed.conf \
   s:java-awfy-steady:Json \
   s:node-awfy-steady:Json \
