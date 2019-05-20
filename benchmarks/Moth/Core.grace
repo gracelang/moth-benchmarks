@@ -23,7 +23,7 @@
 //   2018, June
 //
 
-def Array: List = platform.kernel.Array
+def Array: Unknown = platform.kernel.Array
 def initialSize: Number = 10.asInteger
 def initialCapacity: Number = 16.asInteger
 

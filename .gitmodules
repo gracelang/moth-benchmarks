@@ -1,9 +1,10 @@
 [submodule "implementations/Moth"]
 	path = implementations/Moth
-	url = https://github.com/richard-roberts/Moth.git
+	url = https://github.com/gracelang/Moth.git
 [submodule "implementations/SOMns"]
 	path = implementations/SOMns
-	url = https://github.com/richard-roberts/SOMns.git
+	url = https://github.com/gracelang/moth-SOMns.git
+	branch = release
 [submodule "implementations/Higgs"]
 	path = implementations/Higgs
 	url = https://github.com/higgsjs/Higgs.git
