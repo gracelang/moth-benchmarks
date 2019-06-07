@@ -18,7 +18,7 @@ ln -s ~/eval-description ~/Desktop/eval-description
 ln -s ~/eval-description/eval-description.pdf ~/Desktop/eval-description.pdf
 
 ln -s ~/${REPO_NAME} ~/Desktop/${REPO_NAME}
-ln -s ~/${REPO_NAME}/README.md ~/Desktop/README.md
+ln -s ~/${REPO_NAME}/index.md ~/Desktop/README.md
 
 echo ""
 echo "Customization Done"
