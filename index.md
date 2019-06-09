@@ -17,6 +17,12 @@ This overview provides:
 
 Finally, we provide [step-by-step](#step-by-step) instructions that outline how to build our project from source.
 
+Please note that the VirtualBox image is verified to work.
+The step-by-step instructions however may be brittle.
+Unfortunately, the VirtualBox comes with extra overhead and performance
+implications, while it is the easiest way to get started, it may influence
+benchmark execution in unexpected ways.
+
 <a name="getting-started-guide"></a>
 
 ## 1. Getting Started Guide
@@ -37,7 +43,7 @@ The plots of the evaluation section, and the raw data from our benchmarks can be
 - [Mirror 1][M1Data]
 - [Mirror 2][M2Data]
 
-#### 1.2 Setup Instructions
+#### 1.2 VirtualBox Image
 
 The VirtualBox image was tested with version 5.2.
 It contains a Lubuntu 16.04 installation.
@@ -137,6 +143,10 @@ Additional minor changes have been made to Moth to enable the above classes to b
 
 This section gives a detailed overview of how to download and build our project from source.
 
+Please note that these instructions might become outdated. The VirtualBox image
+is a stable and working snapshot. Though, a setup using the step-by-step
+instructions may be preferred to avoid any performance influence of VirtualBox.
+
 ### 3.1 Install Dependencies
 
 The core of [Moth] is [a fork of SOMns][somns]. It uses Truffle and Graal, for just in time compilation. We use Oracle Labs' Java 8 SDK that supports Graal.
@@ -158,7 +168,7 @@ For VMs
 
 For benchmark execution:
 
-- ReBench, `pip install git+https://github.com/smarr/ReBench`
+- ReBench, `pip install ReBench==1.0rc2`
 
 For rendering benchmarks:
 
@@ -183,7 +193,7 @@ apt-get install -y r-base
 apt-get install -y openjdk-8-jdk openjdk-8-source python-pip ant maven nodejs mono-devel dmd-compiler dub
 apt-get --no-install-recommends install -y texlive-base texlive-latex-base texlive-fonts-recommended texlive-latex-extra texlive-fonts-extra cm-super
 
-pip install git+https://github.com/smarr/ReBench
+pip install ReBench==1.0rc2
 ```
 
 For an executable version of the script see [artifact/provision.sh](./artifact/provision.sh).

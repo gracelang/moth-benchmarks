@@ -22,7 +22,7 @@ apt-get update
 apt-get install -y r-base
 apt-get install -y --allow-unauthenticated openjdk-8-jdk openjdk-8-source python-pip ant maven nodejs mono-devel dmd-compiler dub
 
-pip install git+https://github.com/smarr/ReBench
+pip install ReBench==1.0rc2
 
 # install Latex
 apt-get --no-install-recommends install -y texlive-base texlive-latex-base texlive-fonts-recommended  texlive-latex-extra texlive-fonts-extra cm-super
