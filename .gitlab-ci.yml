@@ -10,7 +10,7 @@ before_script:
 
 benchmark_job:
   stage: benchmark
-  tags: [benchmarks, infinity]
+  tags: [benchmarks, infinity, yuria]
   script:
     # - ./benchmark.sh
     - artifact/virtualbox.sh
