@@ -36,7 +36,7 @@ You can download the image using one of these mirrors:
 - Zenodo: [Mirror 1]
 - Kent Data Repository: [Mirror 2]
 
-Please verify that the MD5 check sum matches `3546a0fabdb89e778c9e46a49f009ca2`.
+Please verify that the MD5 check sum matches `955279be02d3d3ff8f01bd01f3790eb2`.
 
 The plots of the evaluation section, and the raw data from our benchmarks can be downloaded, as well:
 
@@ -285,11 +285,11 @@ This will generate the `eval-description.pdf`, which is linked on the desktop of
 The material in this repository is licensed under the terms of the MIT License. Please note, the repository links in form of submodules to other repositories which are licensed under different terms.
 
 [VirtualBox]: https://www.virtualbox.org/
-[Mirror 1]: https://zenodo-todo
-[Mirror 2]: https://kent-data-archive
+[Mirror 1]: https://zenodo.org/record/3241810/files/ecoop19.ova?download=1
+[Mirror 2]: http://data.kent.ac.uk/79/2/ecoop19.ova
 [ReBench]: https://github.com/smarr/ReBench
 [eclipse_oxy]: https://www.eclipse.org/oxygen/
 [Moth]: https://github.com/gracelang/Moth
 [SOMns]: https://github.com/smarr/SOMns
-[M1Data]: https://zenodo
-[M2Data]: https://kent
+[M1Data]: https://zenodo.org/record/3241810/files/eval.tar.bz2?download=1
+[M2Data]: http://data.kent.ac.uk/79/1/eval.tar.bz2
